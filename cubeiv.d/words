@@ -1,0 +1,53 @@
+Parsing the file:
+
+	-this works so I'm not going to go through it. It is not part of the problem though it may not be as efficient as it could be.
+
+Puzzle.solve(self):
+	//first, I make a vector for the solution. This will get replaced as the program runs and finds better solution points.
+	
+	solution = [0, 0]
+
+	//then, I iterate through all the rooms in the puzzle, calling the look() function at each one, which will spit out a vector in R2 signifying (...
+	this part doesnt matter becase it is not a huge part of the runtime. the recursion is what needs work. I will look at this part now.
+
+
+THE RECURSION:
+
+    def look(self, x, y):
+        home = self.grid[y][x]
+        if self.visited.__contains__(home):
+            return 0
+        else:
+            self.visited.add(home)        
+            try:
+                if self.grid[y + 1][x] - home == 1:
+                    return self.look(x, y + 1) + 1
+            except IndexError:
+                pass
+            try:
+                if self.grid[y - 1][x] - home == 1:
+                    return self.look(x, y - 1) + 1
+            except IndexError:
+                pass
+            try:
+                if self.grid[y][x + 1] - home == 1:
+                    return self.look(x + 1, y) + 1
+            except IndexError:
+                pass
+            try:
+                if self.grid[y][x - 1] - home == 1:
+                    return self.look(x - 1, y) + 1
+            except IndexError:
+                pass
+            return 1
+
+    In words:
+
+    starting point (x, y)
+    if we've been to the starting point before, break out, return 0.
+    otherwise, 
+    	add home to visited and try every direction recursively. 
+
+
+
+Now, I tried to fix this by catching a runtime exception, but that doesnt work because it causes a stack overflow.
